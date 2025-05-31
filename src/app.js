@@ -2,16 +2,27 @@ const express = require("express");
 
 const app = express();
 
-app.use("/", (req, res) => {
-  res.send("Hello from the devTinder!!");
+const users = [{ firstName: "Kshitij", lastName: "Pandey" }];
+
+app.get("/user", (req, res) => {
+  res.send(users);
 });
 
-app.use("/test", (req, res) => {
-  res.send("Hello from the server!!");
+app.post("/user", (req, res) => {
+  // users.push(user);
+  res.send("User is successfully added in the database");
 });
 
-app.use("/hello", (req, res) => {
-  res.send("Hello Hello Hello!!");
+app.delete("/user", (req, res) => {
+  res.send("User is successfully deleted from the database");
+});
+
+app.put("/user", (req, res) => {
+  res.send("User is successfully updated through PUT method in the database");
+});
+
+app.patch("/user", (req, res) => {
+  res.send("User is successfully updated through PATCH method in the database");
 });
 
 app.listen(7777, () => {
