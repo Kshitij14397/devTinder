@@ -4,6 +4,10 @@ const app = express();
 
 const users = [{ firstName: "Kshitij", lastName: "Pandey" }];
 
+app.get("/ab+c", (req, res) => {
+  res.send("Hi abc");
+});
+
 app.get("/user", (req, res) => {
   res.send(users);
 });
