@@ -2,33 +2,39 @@ const express = require("express");
 
 const app = express();
 
-const users = [{ firstName: "Kshitij", lastName: "Pandey" }];
+// app.use("/", (req, res) => {
+//   res.send("Hello");
+// });
 
-app.get("/ab+c", (req, res) => {
-  res.send("Hi abc");
-});
+app.use(
+  "/user",
+  [
+    (req, res, next) => {
+      console.log("Handling the router user!!");
+      next();
+    },
+    (req, res, next) => {
+      console.log("Handling the router user 2!!");
+      // res.send("2nd Response!!");
+      next();
+    },
+  ],
+  (req, res, next) => {
+    console.log("Handling the router user 3!!");
+    // res.send("3rd Response!!");
+    next();
+  },
+  (req, res, next) => {
+    console.log("Handling the router user 4!!");
+    // res.send("4th Response!!");
+    next();
+  },
+  (req, res, next) => {
+    console.log("Handling the router user 5!!");
+    res.send("5th Response!!");
+  }
+);
 
-app.get("/user", (req, res) => {
-  res.send(users);
-});
-
-app.post("/user", (req, res) => {
-  // users.push(user);
-  res.send("User is successfully added in the database");
-});
-
-app.delete("/user", (req, res) => {
-  res.send("User is successfully deleted from the database");
-});
-
-app.put("/user", (req, res) => {
-  res.send("User is successfully updated through PUT method in the database");
-});
-
-app.patch("/user", (req, res) => {
-  res.send("User is successfully updated through PATCH method in the database");
-});
-
-app.listen(7777, () => {
-  console.log("Server is listening on PORT 7777");
+app.listen(3000, () => {
+  console.log("Server is listening on PORT 3000");
 });
