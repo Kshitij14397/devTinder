@@ -12,7 +12,7 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("Data Saved Successfully");
   } catch (err) {
-    res.status(400).send("Something went wrong");
+    res.status(400).send("Something went wrong: " + err.message);
   }
 });
 
@@ -81,14 +81,16 @@ app.patch("/user/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const userData = req.body;
-    const user = await User.findByIdAndUpdate(id, userData);
+    const user = await User.findByIdAndUpdate(id, userData, {
+      runValidators: true,
+    });
     if (!user) {
       res.status(404).send("User Data Not Found");
     } else {
       res.send("User Updated Successfully");
     }
   } catch (err) {
-    res.status(400).send("Something went wrong");
+    res.status(400).send("Something went wrong: " + err.message);
   }
 });
 
