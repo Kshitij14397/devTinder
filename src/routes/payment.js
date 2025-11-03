@@ -12,9 +12,7 @@ const paymentRouter = express.Router();
 paymentRouter.post("/payment/create", userAuth, async (req, res) => {
   try {
     const { membershipType } = req.body;
-    console.log("kp1", membershipType);
     const { firstName, lastName, emailId } = req.user;
-    console.log("kp2", firstName, lastName, emailId);
 
     const order = await razorpayInstance.orders.create({
       amount: membershipAmount[membershipType] * 100,
@@ -28,10 +26,7 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
       },
     });
 
-    console.log("kp3", order);
-
     // Save it in my database
-    console.log(order);
     const payment = new Payment({
       userId: req.user._id,
       orderId: order.id,
@@ -75,6 +70,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     const user = await User.findOne({ _id: payment.userId });
     user.isPremium = true;
     user.membershipType = payment.notes.membershipType;
+    console.log("kp1", user);
     await user.save();
 
     // if (req.body.event === "payment.captured") {
