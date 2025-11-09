@@ -8,7 +8,9 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const paymentRouter = require("./routes/payment");
+const http = require("http");
 require("./utils/cronjob");
+const initSocket = require("./utils/socket");
 
 const app = express();
 
@@ -22,10 +24,13 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
 
+const server = http.createServer(app);
+initSocket(server);
+
 connectDB()
   .then(() => {
     console.log("Database connection established...");
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`Server is listening on PORT ${process.env.PORT}`);
     });
   })
